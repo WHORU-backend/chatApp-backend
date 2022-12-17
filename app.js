@@ -5,6 +5,7 @@ const router = require("./routes");
 const morgan = require("morgan");
 const cors = require("cors");
 const myDataSource = require("./models/db.config");
+const errorHandler = require("./middlewares/errorHandler");
 
 // DB 연결
 myDataSource
@@ -22,6 +23,7 @@ const createApp = () => {
   app.use(morgan("dev"));
   app.use(cors());
   app.use(router);
+  app.use(errorHandler);
 
   return app;
 };
