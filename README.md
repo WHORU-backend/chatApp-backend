@@ -6,9 +6,6 @@
   <br>
 </p>
 
-
-<p align="center">
-GIF Images
 </p>
 
 <br>
@@ -53,11 +50,6 @@ GIF Images
 - Test : 테스트 코드 추가
 - Style : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우, linting
 
-<br>
-
-## 라이센스
-
-MIT &copy; [NoHack](mailto:lbjp114@gmail.com)
 
 <!-- Stack Icon Refernces -->
 
