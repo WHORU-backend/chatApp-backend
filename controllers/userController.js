@@ -17,6 +17,20 @@ const signUp = async (req, res) => {
     }
   };
 
+const signIn = async (req, res) => {
+  const userDto = {...req.body};
+
+  if (!userDto.email || !userDto.password) {
+    const error = new Error("KEY ERROR");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const token = await userService.signIn(userDto);
+  return res.status(200).json({ token: token });
+};
+
 module.exports = { 
-    signUp,
-}
+  signUp,
+  signIn,
+};

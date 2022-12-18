@@ -9,6 +9,18 @@ const createUser = async (userDao) => {
     );
   };
 
+const getUser = async (userDao) => {
+  const [result] = await myDataSource.query(
+    `
+    SELECT *
+    FROM users
+    WHERE email = "${userDao.email}"
+    `
+  );
+  return result;
+};
+
 module.exports = { 
-    createUser,
-}
+  createUser,
+  getUser,
+};
