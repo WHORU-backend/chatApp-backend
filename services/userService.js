@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const signUp = async(userDto)=>{
     userDto.password =  await bcrypt.hash(userDto.password, 12);
     await userDao.createUser(userDto);
-}
+};
 
 const signIn = async(userDto)=>{
     const existingUser = await userDao.getUser(userDto);
@@ -19,7 +19,7 @@ const signIn = async(userDto)=>{
             error.statusCode = 400;
             throw error;
         }
-    } else{
+    } else {
         const error = new Error("INVAILD USER");
         error.statusCode = 400;
         throw error;

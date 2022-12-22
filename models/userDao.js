@@ -1,13 +1,13 @@
 const myDataSource = require("./db.config");
 
 const createUser = async (userDao) => {
-    await myDataSource.query(
-      `
-      INSERT INTO users(name, email, password)
-      VALUES ("${userDao.name}","${userDao.email}","${userDao.password}")
-      `
-    );
-  };
+  await myDataSource.query(
+    `
+    INSERT INTO users(name, email, password)
+    VALUES ("${userDao.name}","${userDao.email}","${userDao.password}")
+    `
+  );
+};
 
 const getUser = async (userDao) => {
   const [result] = await myDataSource.query(
@@ -21,6 +21,6 @@ const getUser = async (userDao) => {
 };
 
 module.exports = { 
-  createUser,
-  getUser,
-};
+    createUser,
+    getUser,
+}
