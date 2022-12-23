@@ -20,7 +20,17 @@ const getUser = async (userDao) => {
   return result;
 };
 
+const createNaverUser = async (userDao) => {
+  await myDataSource.query(
+    `
+    INSERT INTO users(name, email)
+    VALUES ("${userDao.name}","${userDao.email}")
+    `
+  );
+};
+
 module.exports = { 
-    createUser,
-    getUser,
+  createUser,
+  getUser,
+  createNaverUser,
 }

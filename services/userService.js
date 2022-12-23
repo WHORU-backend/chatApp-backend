@@ -26,7 +26,24 @@ const signIn = async(userDto)=>{
     }
 };
 
+const naverSignIn = async()=>{
+    const state = Math.random().toString(36).substring(2);;
+    const redirectURI = encodeURI("http://localhost:8000/users/naver/info");
+    api_url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + process.env.NAVER_CLIENT_ID
+            + '&redirect_uri=' + redirectURI
+            + '&state=' + state;
+    return api_url;
+};
+
+const naverUserInfo = async(userDto) => {
+    await userDao.createNaverUser(userDto);
+    const existingUser = await userDao.getUser(userDto);
+    return existingUser;
+};
+
 module.exports = { 
     signUp,
     signIn,
+    naverSignIn,
+    naverUserInfo,
 };
