@@ -40,7 +40,20 @@ const signIn = async (req, res) => {
   return res.status(200).json({ token: token });
 };
 
-module.exports = { 
-    signUp,
-    signIn,
+const naverSignIn = async (req, res) => {
+  const url = await userService.naverSignIn();
+  return res.status(200).json({ naver_signup: url });
+};
+
+const naverUserInfo = async (req, res) => {
+  const userDto = res.locals.naverInfo;
+  await userService.naverUserInfo(userDto);
+  return res.status(200).json({ message: "SUCCESS" });
+};
+
+module.exports = {
+  signUp,
+  signIn,
+  naverSignIn,
+  naverUserInfo,
 };
