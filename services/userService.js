@@ -41,9 +41,50 @@ const naverUserInfo = async(userDto) => {
     return existingUser;
 };
 
+const kakaoSignIn = async ( authCode ) => {
+
+    const kakaoId = process.env.KAKAO_ID;
+    const redirectUri = process.env.KAKAO_REDIRECT_URL;
+  
+    const getToken = await axios({
+          url : `https://kauth.kakao.com/oauth/token`,
+          method : 'POST',
+          headers : {'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'},
+          data : `grant_type=authorization_code&kakao_id=${kakaoId}&redirect_uri=${redirectUri}&code=${authCode}`
+      });
+  
+    const userData = await axios({
+        url : `https://kapi.kakao.com/v2/user/me`,
+        method : 'GET',
+        headers : {
+            'Content-type' : 'application/x-www-form-urlencoded;charset=utf-8',
+            'Authorization' : `Bearer ${getToken.data.access_token}`
+        }
+    });
+  
+    const kakaoUser = userData.data;
+    const email = kakaoUser.kakaoAccount;
+    const kakaoUserId = kakaoUser.id;
+    const name = kakaoUser.properties.nickname;
+    const profileImage = kakaoUser.kakaoAccount.profileImageUrl;
+  
+    let user = await userDao.getUserByKakaoId(kakaoId);
+  
+    if(!user){
+        await userDao.createSignUp(kakaoId, email, name, profileImage);
+        user = await userDao.getUserByKakaoId(kakaoId);
+    }
+  
+    const accessToken = jwt.sign({ user_id : user.id }, process.env.KAKAO_SECRET)
+  
+    return accessToken
+  
+  }
+
 module.exports = { 
     signUp,
     signIn,
     naverSignIn,
     naverUserInfo,
+    kakaoSignIn,
 };

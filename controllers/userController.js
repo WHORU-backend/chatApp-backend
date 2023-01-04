@@ -1,4 +1,5 @@
 const {userService} = require('../services');
+const { catchAsync } = require('../middleware/error');
 
 const signUp = async (req, res) => {
   const userDto = {...req.body};
@@ -51,9 +52,22 @@ const naverUserInfo = async (req, res) => {
   return res.status(200).json({ message: "SUCCESS" });
 };
 
+const kakaoSignIn = catchAsync(async (req, res) => {
+  const authCode = req.query.code;
+
+  if(!authCode){
+    const error = new Error("AUTHCODE_ERROR");
+    error.statusCode = 400;
+        throw error;
+    }
+    const accessToken = await userService.kakaoSignIn(authCode);
+    return res.status(201).json({accessToken});
+})
+
 module.exports = {
   signUp,
   signIn,
   naverSignIn,
   naverUserInfo,
+  kakaoSignIn
 };

@@ -29,8 +29,42 @@ const createNaverUser = async (userDao) => {
   );
 };
 
+const getUserByKakaoId = async (kakaoId) => {
+
+  const [user] = await myDataSource.query(
+    `
+    SELECT 
+            id,
+            kakaoId,
+            name,
+            profileImage
+    FROM users
+    WHERE kakaoId=?`, [kakaoId]
+  )
+
+    return user;
+}
+
+const createSignUp = async (kakaoId, email, name, profileImage) => {
+
+    return await dataSource.query(
+      `
+        INSERT INTO users (
+          kakaoId, email, name, profileImage
+          ) VALUES (
+                  ?,
+                  ?, 
+                  ?, 
+                  ?,
+                  ?
+          )`,
+      [socialId, email, name, profileImage]
+    )
+}
+
 module.exports = { 
   createUser,
   getUser,
   createNaverUser,
+  getUserByKakaoId,
 }
